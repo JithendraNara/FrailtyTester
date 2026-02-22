@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
 const corsOptions = {
   origin: allowedOrigins.length > 0 ? allowedOrigins : false,
-  credentials: true,
+  credentials: allowedOrigins.length > 0,
   optionsSuccessStatus: 200
 };
 

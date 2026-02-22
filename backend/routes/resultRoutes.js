@@ -17,8 +17,8 @@ const validateResultInput = (data) => {
   if (typeof data.userAge !== 'number' || data.userAge < 0 || data.userAge > 150) {
     errors.push('userAge must be a valid number');
   }
-  if (!Array.isArray(data.attempts) || typeof data.attempts !== 'number' || data.attempts < 0) {
-    errors.push('attempts must be a valid positive number');
+  if (!Array.isArray(data.attempts) || data.attempts.length === 0) {
+    errors.push('attempts must be a non-empty array');
   }
   if (typeof data.averageBalanceTime !== 'number' || data.averageBalanceTime < 0) {
     errors.push('averageBalanceTime must be a valid positive number');

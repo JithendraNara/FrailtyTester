@@ -7,9 +7,10 @@ export const exercisesApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   tagTypes: ['Exercise'],
   endpoints: (builder) => ({
-    // Get exercises by category
+    // Get exercises by category and age group
     getExercisesByCategory: builder.query({
-      query: (category) => `/exercises/${category}`,
+      // Backend expects: /exercises/:ageGroup/:category
+      query: ({ ageGroup, category }) => `/exercises/${ageGroup}/${category}`,
       providesTags: ['Exercise']
     })
   })

@@ -106,10 +106,10 @@ const ResultsScreen = () => {
     const [resultSaved, setResultSaved] = useState(false);
 
     const [saveResult] = useSaveResultMutation();
-    
-    // Add RTK Query hook
+
+    // Add RTK Query hook - pass object with ageGroup and category
     const { data: exercises, isLoading } = useGetExercisesByCategoryQuery(
-        ageGroup && performanceCategory ? `${ageGroup}/${performanceCategory}` : null,
+        ageGroup && performanceCategory ? { ageGroup, category: performanceCategory } : null,
         { skip: !ageGroup || !performanceCategory }
     );
 
@@ -124,24 +124,24 @@ const ResultsScreen = () => {
             setFeedback("Please enter a valid age to evaluate your results.");
             return;
         }
-    
+
         const assessment = assessBalance(parseInt(age), parseFloat(averageBalance));
-    
+
         if (!assessment.isValid) {
             setFeedback(assessment.message);
             return;
         }
-    
+
         setAgeGroup(assessment.ageGroup);
         setPerformanceCategory(assessment.category);
         setShowExercises(assessment.category === "Below Average");
-    
+
         const feedbackMessages = {
             "Below Average": `Your average balance time is ${averageBalance} seconds. Below Average - Consider practicing balance exercises.`,
             "Average": `Your average balance time is ${averageBalance} seconds. Within Norms - You're within the expected range!`,
             "Above Average": `Your average balance time is ${averageBalance} seconds. Exceeded Norms - You exceeded expectations!`
         };
-    
+
         // Automatically save results after evaluation
         try {
             const savedResult = await saveResult({
@@ -186,8 +186,8 @@ const ResultsScreen = () => {
             )}
 
             {showExercises && (
-                <ExerciseSuggestions 
-                    exercises={exercises} 
+                <ExerciseSuggestions
+                    exercises={exercises}
                     isLoading={isLoading}
                 />
             )}
